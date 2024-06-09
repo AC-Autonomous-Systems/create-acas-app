@@ -1,0 +1,61 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "tables": {
+    "public.dispense_jobs": {
+      "name": "dispense_jobs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "dispensed_at": {
+          "name": "dispensed_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "dispense_job_status",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'pending'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "public.dispense_job_status": {
+      "name": "dispense_job_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "dispensed",
+        "failed"
+      ]
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "id": "0053210b-244f-4686-a6c1-56a4ecf704fb",
+  "prevId": "00000000-0000-0000-0000-000000000000"
+}

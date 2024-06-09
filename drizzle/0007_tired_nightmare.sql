@@ -1,0 +1,1 @@
+ALTER TABLE "dispense_job_breakdown" ADD COLUMN "dispense_count" double precision NOT NULL;

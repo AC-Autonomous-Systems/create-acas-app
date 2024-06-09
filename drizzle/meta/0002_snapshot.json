@@ -1,0 +1,69 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "tables": {
+    "public.dispense_jobs": {
+      "name": "dispense_jobs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "dispensed_at": {
+          "name": "dispensed_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "dispense_job_status",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'pending'"
+        },
+        "dispense_amount": {
+          "name": "dispense_amount",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "public.dispense_job_status": {
+      "name": "dispense_job_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "dispensing",
+        "dispensed",
+        "failed"
+      ]
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "id": "79361aea-b7b1-469a-8e9f-2718fb6c57fc",
+  "prevId": "1e06b1a5-4a45-45f3-b85e-c800b1e11405"
+}

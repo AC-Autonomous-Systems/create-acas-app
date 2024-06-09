@@ -1,0 +1,1 @@
+ALTER TABLE "dispense_jobs" ADD COLUMN "dispensed_amount" double precision DEFAULT 0 NOT NULL;
