@@ -39,7 +39,7 @@ export async function POST(
     );
   }
 
-  const { name, CDUKey } = inputBody.data;
+  const { name } = inputBody.data;
 
   /* ----------- Create the tenant and add the user into tenantUsers ---------- */
 
@@ -49,7 +49,6 @@ export async function POST(
         .insert(tenantsTable)
         .values({
           name: name,
-          ...(CDUKey && { CDUKey: CDUKey }),
           owner: userFromRequest.user.id,
         })
         .returning();
@@ -137,7 +136,7 @@ export async function PUT(
     );
   }
 
-  const { name, CDUKey } = inputBody.data;
+  const { name } = inputBody.data;
 
   const tenantFromId = await db
     .select()
@@ -175,7 +174,6 @@ export async function PUT(
       .update(tenantsTable)
       .set({
         ...(name && { name: name }),
-        ...(CDUKey && { CDUKey: CDUKey }),
       })
       .where(eq(tenantsTable.id, params.id))
       .returning();

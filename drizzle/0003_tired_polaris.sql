@@ -1,1 +1,0 @@
-ALTER TABLE "dispense_jobs" ADD COLUMN "error_message" text;

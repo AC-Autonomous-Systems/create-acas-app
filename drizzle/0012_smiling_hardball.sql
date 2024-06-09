@@ -1,1 +1,0 @@
-ALTER TABLE "dispense_job_breakdown" ADD COLUMN "casette_denomination" double precision NOT NULL;

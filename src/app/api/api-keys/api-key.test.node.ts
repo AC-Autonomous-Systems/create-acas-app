@@ -21,7 +21,7 @@ describe('api-key tests', () => {
       .select({
         id: tenantsTable.id,
         name: tenantsTable.name,
-        CDUKey: tenantsTable.CDUKey,
+
         owner: tenantsTable.owner,
         user: tenantUsersTable.userId,
       })
@@ -80,7 +80,7 @@ describe('api-key tests', () => {
       .select({
         id: tenantsTable.id,
         name: tenantsTable.name,
-        CDUKey: tenantsTable.CDUKey,
+
         owner: tenantsTable.owner,
         user: tenantUsersTable.userId,
       })
@@ -176,7 +176,7 @@ describe('api-key tests', () => {
       .select({
         id: tenantsTable.id,
         name: tenantsTable.name,
-        CDUKey: tenantsTable.CDUKey,
+
         owner: tenantsTable.owner,
       })
       .from(tenantsTable)

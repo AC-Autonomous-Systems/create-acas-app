@@ -39,7 +39,6 @@ describe('tenant tests', () => {
       },
       body: JSON.stringify({
         name: 'Test Tenant 123',
-        CDUKey: 'CDU123Key',
       }),
     });
 
@@ -48,7 +47,6 @@ describe('tenant tests', () => {
     const responseBody = await response.json();
     expect(responseBody.createdTenant).toBeDefined();
     expect(responseBody.createdTenant.name).toBe('Test Tenant 123');
-    expect(responseBody.createdTenant.CDUKey).toBe('CDU123Key');
     expect(responseBody.createdTenant.id).toBeDefined();
     expect(responseBody.createdTenant.createdAt).toBeDefined();
     expect(responseBody.createdTenant.owner).toBe(
@@ -61,7 +59,6 @@ describe('tenant tests', () => {
       .select({
         id: tenantsTable.id,
         name: tenantsTable.name,
-        CDUKey: tenantsTable.CDUKey,
         owner: tenantsTable.owner,
         user: tenantUsersTable.userId,
       })
@@ -98,7 +95,6 @@ describe('tenant tests', () => {
         },
         body: JSON.stringify({
           name: 'Updated Test Tenant 123',
-          CDUKey: 'Updated CDU123Key',
         }),
       }
     );
@@ -112,7 +108,6 @@ describe('tenant tests', () => {
 
     expect(responseBody.updatedTenant).toBeDefined();
     expect(responseBody.updatedTenant.name).toBe('Updated Test Tenant 123');
-    expect(responseBody.updatedTenant.CDUKey).toBe('Updated CDU123Key');
     expect(responseBody.updatedTenant.id).toBe(tenantFromDb[0].id);
     expect(responseBody.updatedTenant.createdAt).toBeDefined();
     expect(responseBody.updatedTenant.owner).toBe(
@@ -138,7 +133,6 @@ describe('tenant tests', () => {
         },
         body: JSON.stringify({
           name: 'Updated Test Tenant 123',
-          CDUKey: 'Updated CDU123Key',
         }),
       }
     );
@@ -184,7 +178,6 @@ describe('tenant tests', () => {
     for (let i = 0; i < markTenantsFromDB.length; i++) {
       expect(responseBody.tenants[i].id).toBe(markTenantsFromDB[i].id);
       expect(responseBody.tenants[i].name).toBe(markTenantsFromDB[i].name);
-      expect(responseBody.tenants[i].CDUKey).toBe(markTenantsFromDB[i].CDUKey);
       expect(responseBody.tenants[i].owner).toBe(markTenantsFromDB[i].owner);
     }
   });

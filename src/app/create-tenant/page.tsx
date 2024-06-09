@@ -38,7 +38,6 @@ export default function CreateTenant() {
   const form = useForm<z.infer<typeof zCreateTenantInput>>({
     defaultValues: {
       name: '',
-      CDUKey: '',
     },
   });
 
@@ -130,28 +129,6 @@ export default function CreateTenant() {
                   <FormDescription>
                     This is the name of the tenant. Each machine must be
                     assigned to a tenant.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="CDUKey"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Genmega CDU Key</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter the CDU Key"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    This is the CDU key provided by Genmega. This key is used to
-                    authenticate the machines. CDU keys are organization-wide,
-                    so you only need to specify it here to use across all your
-                    machines.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
