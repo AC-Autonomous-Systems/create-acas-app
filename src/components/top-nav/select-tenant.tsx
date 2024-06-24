@@ -89,7 +89,7 @@ export default function SelectTenant({ tenants }: SelectTenantProps) {
             })}
           </SelectContent>
         </Select>
-      )}{' '}
+      )}
     </div>
   );
 }

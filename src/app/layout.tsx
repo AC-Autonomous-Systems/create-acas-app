@@ -10,8 +10,8 @@ import TenantContextProvider from './tenant-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ATM Cash Dispenser API',
-  description: 'Cash dispensing API for ATM machines.',
+  title: 'Create ACAS App Template',
+  description: 'Template for NextJS + Tailwind + Drizzle Monorepo',
 };
 
 export default function RootLayout({
