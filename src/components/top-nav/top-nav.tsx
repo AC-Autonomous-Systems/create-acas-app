@@ -1,10 +1,7 @@
 import { Separator } from '../ui/separator';
-import { Button } from '../ui/button';
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import UserStats from './user-stats';
 import Link from 'next/link';
 import ThemeToggle from '../ui/theme-toggle';
-import ListItem from './list-item';
 import DesktopNavigationMenu from './nav-menu-desktop';
 import { NavigationMenuItemDef } from './types';
 import HamburgerNav from './hamburger-nav';
@@ -13,7 +10,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/next-auth';
 import SelectTenant from './select-tenant';
 import getDataFromApi from '@/lib/util/rsc-data-fetch';
-import { Tenant } from '@/app/api/tenant/types';
+import { Tenant, TenantsAndRole } from '@/app/api/tenant/types';
 import { headers } from 'next/headers';
 
 const HOMEPAGE_NAVIGATION_MENU_ITEMS: NavigationMenuItemDef[] = [
@@ -33,7 +30,7 @@ const HOMEPAGE_NAVIGATION_MENU_ITEMS: NavigationMenuItemDef[] = [
   },
 ];
 
-const AUTHORIZED_NAVIGATION_MENU_ITEMS: NavigationMenuItemDef[] = [
+const AUTHENTICATED_NAVIGATION_MENU_ITEMS: NavigationMenuItemDef[] = [
   {
     groupName: 'Documentation',
     permissions: [],
@@ -65,7 +62,7 @@ const AUTHORIZED_NAVIGATION_MENU_ITEMS: NavigationMenuItemDef[] = [
   {
     groupName: 'Developers',
     permissions: [],
-    tenantPermissions: [],
+    tenantPermissions: ['user', 'admin'],
     items: [
       {
         title: 'API Keys',
@@ -100,6 +97,7 @@ export default async function TopNav() {
   const protocol = headersList.get('x-forwarded-proto') || 'http';
 
   let tenants: Tenant[] = [];
+  let tenantsAndRoles: TenantsAndRole[] = [];
 
   if (session && session.user) {
     const response = await getDataFromApi(`${protocol}://${host}/api/tenant`, {
@@ -108,8 +106,9 @@ export default async function TopNav() {
 
     const data = await response.json();
 
-    if (data && data.tenants) {
+    if (data && data.tenants && data.tenantsAndRoles) {
       tenants = data.tenants;
+      tenantsAndRoles = data.tenantsAndRoles;
     } else if (data && data.error) {
       throw new Error(data.error);
     }
@@ -133,9 +132,11 @@ export default async function TopNav() {
         <DesktopNavigationMenu
           navigationMenuItems={
             session
-              ? AUTHORIZED_NAVIGATION_MENU_ITEMS
+              ? AUTHENTICATED_NAVIGATION_MENU_ITEMS
               : HOMEPAGE_NAVIGATION_MENU_ITEMS
           }
+          tenantsAndRoles={tenantsAndRoles}
+          session={session}
         />
         {/* Light/Dark mode toggle + user icon + hamburger bar on mobile */}
         <div className="flex flex-row items-center gap-3">
@@ -151,7 +152,7 @@ export default async function TopNav() {
           <HamburgerNav
             navigationMenuItems={
               session
-                ? AUTHORIZED_NAVIGATION_MENU_ITEMS
+                ? AUTHENTICATED_NAVIGATION_MENU_ITEMS
                 : HOMEPAGE_NAVIGATION_MENU_ITEMS
             }
             footerItems={
@@ -159,6 +160,8 @@ export default async function TopNav() {
                 <SelectTenant tenants={tenants} />
               </>
             }
+            session={session}
+            tenantsAndRoles={tenantsAndRoles}
           />
         </div>
       </div>

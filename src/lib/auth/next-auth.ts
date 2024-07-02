@@ -1,26 +1,26 @@
-import { NextAuthOptions } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import GithubProvider from "next-auth/providers/github"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import GithubProvider from 'next-auth/providers/github';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 /* -------------------------------------------------------------------------- */
 /*                               Loads the .env                               */
 /* -------------------------------------------------------------------------- */
-import * as dotenv from "dotenv"
-import { db } from "../db/db"
-import { usersTable } from "@/app/api/users/schema"
-import { eq } from "drizzle-orm"
+import * as dotenv from 'dotenv';
+import { db } from '../db/db';
+import { usersTable } from '@/app/api/users/schema';
+import { eq } from 'drizzle-orm';
 dotenv.config({
-  path: ".env.local",
-})
+  path: '.env.local',
+});
 
 if (!process.env.NEXTAUTH_SECRET) {
-  throw new Error("NEXTAUTH_SECRET is not set")
+  throw new Error('NEXTAUTH_SECRET is not set');
 }
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: { strategy: 'jwt' },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
         const userFromDbRes = await db
           .select()
           .from(usersTable)
-          .where(eq(usersTable.email, token.email))
+          .where(eq(usersTable.email, token.email));
 
         // Create user if it doesn't exist:
         if (!userFromDbRes || userFromDbRes.length === 0) {
@@ -46,11 +46,23 @@ export const authOptions: NextAuthOptions = {
               name: user.name,
               profilePictureURL: user.image,
             })
-            .returning()
+            .returning();
         }
       }
+      return token;
+    },
 
-      return token
+    session: async function ({ session, token }) {
+      if (session.user && session.user.email) {
+        const userFromDbRes = await db
+          .select()
+          .from(usersTable)
+          .where(eq(usersTable.email, session.user.email));
+
+        session.user.role = userFromDbRes[0].role;
+      }
+
+      return session;
     },
   },
-}
+};
