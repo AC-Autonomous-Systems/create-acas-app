@@ -209,5 +209,6 @@ export async function GET(request: NextRequest) {
     tenants: userFromRequest.tenantsAndRole.map(
       (tenantAndRole) => tenantAndRole.tenant
     ),
+    tenantsAndRoles: userFromRequest.tenantsAndRole,
   });
 }
